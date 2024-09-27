@@ -20,8 +20,14 @@ public class Bot {
     private DcMotor rightMotorBack;
 
     //Statistics for measurements
-    static final double WHEEL_DIAMETER_INCHES = 1; // For circumference / distance measurements
+    private static final double WHEEL_DIAMETER_INCHES = 1; // For circumference / distance measurements
+    private static final int TICKS_PER_REV = 1440;
+    private static final double ARM_GEAR_RATIO = 1.0;
+    private static final double DISTANCE_PER_REV = 10.0;
 
+    //Extending and pivot motor
+    private DcMotor extendArmMotor;
+    private DcMotor armPivotMotor;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -46,6 +52,9 @@ public class Bot {
         rightMotorFront = map.get(DcMotor.class, "right_front");
         rightMotorBack = map.get(DcMotor.class, "right_back");
 
+        extendArmMotor = map.get(DcMotor.class, "extend_arm");
+        armPivotMotor = map.get(DcMotor.class, "pivot_arm");
+
         //Set RunModes for Encoder Usage
         /*
         leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -61,6 +70,9 @@ public class Bot {
         leftMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        extendArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        armPivotMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
@@ -79,6 +91,31 @@ public class Bot {
         leftMotorBack.setPower(backLeftPower);
         rightMotorFront.setPower(frontRightPower);
         rightMotorBack.setPower(backRightPower);
+    }
+
+
+    public void setExtendPower(double power){
+        extendArmMotor.setPower(power);
+    }
+
+    public double getArmPosition(){
+        int currentTicks = extendArmMotor.getCurrentPosition();
+
+        double revolutions = (double) currentTicks / TICKS_PER_REV;
+
+        return revolutions * ARM_GEAR_RATIO * DISTANCE_PER_REV;
+    }
+
+    public void autoPivotArm(
+            int targetPosition, double power
+    ) {
+        armPivotMotor.setTargetPosition(targetPosition);
+        armPivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        armPivotMotor.setPower(power);
+    }
+
+    public void setPivotPower(double power){
+        armPivotMotor.setPower(power);
     }
 
 

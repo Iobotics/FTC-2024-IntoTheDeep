@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @TeleOp(name = "TeleOp", group = "TeleOp")
 public class Teleop extends LinearOpMode {
 
+    private final doubel H = 12.0 // Desired height of the intake in inches
+
     @Override
     public void runOpMode() throws InterruptedException {
         Bot bot = new Bot(this);
@@ -40,6 +42,33 @@ public class Teleop extends LinearOpMode {
                 backRightPower /= max;
             }
             bot.setDriveTrain(frontLeftPower, backLeftPower, frontRightPower, backRightPower);
+
+            if(gamepad1.right_trigger > 0){
+                bot.setExtendPower(1.0);
+            } else if (gamepad1.left_trigger > 0){
+                bot.setExtendPower(-1.0);
+            } else {
+                bot.setExtendPower(0.0);
+            }
+
+            double L = bot.getArmPosition();
+
+            if(L >= H){
+                double theta = Math.asin(H/L);
+                int maxEncoderTicks = 720; //for 180 degrees
+                double proportionOfFullRange = theta / Math.PI;
+                int targetPosition = (int)(proportionOfFullRange * maxEncoderTicks);
+
+                bot.autoPivotArm(targetPosition, 1.0);
+            } else {
+                bot.setPivotPower(0.0);
+            }
+
+            telemetry.addData("Current Length: ", L);
+            telemetry.addData("Angle (Rads): ", L >= H ? Math.asin(H/L):"N/A");
+            telemetry.addData("Horizontal Extension: ", L >= H? Math.sqrt(L*L-H*H):"N/A");
+            telemetry.update();
+
         }
     }
 }
