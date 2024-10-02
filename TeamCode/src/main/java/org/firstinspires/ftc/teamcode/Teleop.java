@@ -24,7 +24,7 @@ public class Teleop extends LinearOpMode {
         while (opModeIsActive()) {
             double y = gamepad1.left_stick_y; // Remember, Y stick value is reversed
             double x = -gamepad1.left_stick_x; // Counteract imperfect strafing
-            double pivot = -gamepad1.right_stick_x;
+            double pivot = gamepad1.right_stick_x;
 
             double frontLeftPower = y + x + pivot;
             double backLeftPower =  y - x + pivot;
