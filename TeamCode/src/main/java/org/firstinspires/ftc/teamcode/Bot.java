@@ -84,12 +84,12 @@ public class Bot {
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-//        leftLift = map.get(DcMotor.class, "left_lift");//giveing the motors a name for codeing
-//        rightLift = map.get(DcMotor.class, "right_lift");
-//
-//
-//        extendArmMotor = map.get(DcMotor.class, "extend_arm");
-//        armPivotMotor = map.get(DcMotor.class, "pivot_arm");
+        leftLift = map.get(DcMotor.class, "left_lift");//giveing the motors a name for codeing
+        rightLift = map.get(DcMotor.class, "right_lift");
+
+
+        extendArmMotor = map.get(DcMotor.class, "extend_arm");
+        armPivotMotor = map.get(DcMotor.class, "pivot_arm");
 
 
         //set encoders to 0 on init
@@ -98,11 +98,11 @@ public class Bot {
         rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-//        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//
-//        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         //Set RunModes for Encoder Usage
         leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -110,11 +110,11 @@ public class Bot {
         rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-//        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
-//        extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // Set zero power behavior for motors
         leftMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -135,16 +135,16 @@ public class Bot {
         rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
 
-//        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
-//        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
-//
-//        extendArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//        armPivotMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        extendArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        armPivotMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //Servos for intake on the map
         //TODO Rename Intake servos to something better
-//        topIntake = map.get(CRServo.class, "top_intake");
-//        bottomIntake = map.get(CRServo.class, "bottom_intake");
+        topIntake = map.get(CRServo.class, "top_intake");
+        bottomIntake = map.get(CRServo.class, "bottom_intake");
 
         //TODO push off servos for lift
     }
@@ -487,7 +487,6 @@ public class Bot {
         armPivotMotor.setPower(0);
 
         armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /**
@@ -507,7 +506,6 @@ public class Bot {
         armPivotMotor.setPower(0);
 
         armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /**
@@ -526,6 +524,11 @@ public class Bot {
     public void runOuttake(){
         topIntake.setPower(1.0);
         bottomIntake.setPower(-1.0);
+    }
+
+    public void stopIntake(){
+        topIntake.setPower(0);
+        bottomIntake.setPower(0);
     }
 
     /**
@@ -548,7 +551,6 @@ public class Bot {
         extendArmMotor.setPower(0);
 
         extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /**
@@ -568,7 +570,6 @@ public class Bot {
         extendArmMotor.setPower(0);
 
         extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /**
@@ -577,7 +578,7 @@ public class Bot {
      *      zeroes its encoders on initialization.
      */
     public void retractArm(){
-        extendArmMotor.setTargetPosition(0);
+        extendArmMotor.setTargetPosition(100);
         extendArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         extendArmMotor.setPower(1.0);
@@ -589,7 +590,42 @@ public class Bot {
         extendArmMotor.setPower(0);
 
         extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
+
+    /**
+     * Retract extend arm and zeroes pivot back to home position
+     */
+    public void retract(){
+        armPivotMotor.setTargetPosition(0);
+        armPivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        armPivotMotor.setPower(1.0);
+
+        while(opMode.opModeIsActive() && armPivotMotor.isBusy()){
+            opMode.telemetry.addData("Arm Pos: ", armPivotMotor.getCurrentPosition());
+        }
+
+        armPivotMotor.setPower(0);
+
+        armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    /**
+     * Returns the converted degree to tick.
+     * @param degree target position in degree
+     * @return tick value equivalent
+     */
+    public int degreeToTick(double degree){
+        return (int) (degree/180)*2560;
+    }
+
+    /**
+     * Returns the converted inch to tick.
+     * @param inch target position in inches
+     * @return tick value equivalent
+     */
+    public int inchToTick(double inch){
+        return (int) (inch*TICKS_PER_INCH_EXT);
     }
 
 }
