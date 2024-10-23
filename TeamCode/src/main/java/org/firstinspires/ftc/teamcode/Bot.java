@@ -37,6 +37,9 @@ public class Bot {
     private static final double DISTANCE_PER_REV = 10.0;
     private static final int MAX_TICK_EXT = -3595;
 
+    //direction for intake
+    public static final int INTAKE_FORWARD = -1;
+    public static final int INTAKE_BACKWARD = 1;
 
     //Drive Encoder Stats
     static final double COUNTS_PER_MOTOR_REV = 537.7;    // GoBilda 5203 motor encoder res
@@ -626,6 +629,28 @@ public class Bot {
      */
     public int inchToTick(double inch){
         return (int) (inch*TICKS_PER_INCH_EXT);
+    }
+
+    public void runIntakeForTime(double runTime, int direction) {
+        long startTime = System.currentTimeMillis();
+        int power = 0;
+
+        // Run the motor at full power
+        if(direction == INTAKE_BACKWARD)
+            power = 1;
+        else
+            power = -1;
+        topIntake.setPower(power); // Full power for the intake
+        bottomIntake.setPower(power);
+
+        // Run until the time is up
+        while (opMode.opModeIsActive() && (System.currentTimeMillis() - startTime < runTime * 1000)) {
+            // Loop until the time expires
+        }
+
+        // Stop the motor after the time has expired
+        topIntake.setPower(0);
+        bottomIntake.setPower(0);
     }
 
 }
