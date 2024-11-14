@@ -5,33 +5,25 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class Bot {
 
     //OpMode Declaration
     private LinearOpMode opMode;
 
-    //Motor Declaration
-    private DcMotor leftMotorFront;
-    private DcMotor rightMotorFront;
-    private DcMotor leftMotorBack;
-    private DcMotor rightMotorBack;
+    //Drive Motor Declaration
+    private DcMotor leftMotorFront = null;
+    private DcMotor rightMotorFront = null;
+    private DcMotor leftMotorBack = null;
+    private DcMotor rightMotorBack = null;
 
-    private DcMotor rightLift;
-    private DcMotor leftLift;
+    //Subsystem Declaration
+    private Servo leftExtend = null;
+    private Servo rightExtend = null;
 
-    private CRServo leftIntake;
-    private CRServo rightIntake;
-
+    // Hardware Map Declaration
     private HardwareMap hwMap = null;
-
-    //extend and pivot
-    private DcMotor extendArmMotor;
-    private DcMotor armPivotMotor;
-
-    private CRServo rightPushoff;
-    private CRServo leftPushoff;
-
 
     //Statistics for measurements
     public static final int MAX_EXT = -2648;
@@ -89,18 +81,8 @@ public class Bot {
         rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        leftLift = map.get(DcMotor.class, "left_lift");//giveing the motors a name for codeing
-        rightLift = map.get(DcMotor.class, "right_lift");
-
-        extendArmMotor = map.get(DcMotor.class, "extend_arm");
-        armPivotMotor = map.get(DcMotor.class, "pivot_arm");
-
-        extendArmMotor = map.get(DcMotor.class, "extend_arm");
-        armPivotMotor = map.get(DcMotor.class, "pivot_arm");
-
-
-        leftPushoff = map.get(CRServo.class, "left_pushoff");
-        rightPushoff = map.get(CRServo.class, "right_pushoff");
+        leftExtend = hwMap.get(Servo.class, "left_extend");
+        rightExtend = hwMap.get(Servo.class, "right_extend");
 
         //set encoders to 0 on init
         leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -108,35 +90,12 @@ public class Bot {
         rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
         //Set RunModes for Encoder Usage
         leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // Set zero power behavior for motors
-        leftMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        extendArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armPivotMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Set Direction of each Motors
         // switch REVERSE and FORWARD if controls are opposite
@@ -144,19 +103,6 @@ public class Bot {
         leftMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        leftLift.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightLift.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        extendArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-        armPivotMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-
-        leftPushoff.setDirection(CRServo.Direction.FORWARD);
-        rightPushoff.setDirection(CRServo.Direction.REVERSE);
-
-        //Servos for intake on the map
-        leftIntake = map.get(CRServo.class, "left_intake");
-        rightIntake = map.get(CRServo.class, "right_intake");
 
     }
 
@@ -176,92 +122,6 @@ public class Bot {
        rightMotorFront.setPower(frontRightPower);
        rightMotorBack.setPower(backRightPower);
     }
-
-    /**
-     * set Pushoff power for left and right
-     */
-
-    public void setPushoff(
-            double pushoffPower
-    ){
-        leftPushoff.setPower(pushoffPower);
-        rightPushoff.setPower(pushoffPower);
-    }
-
-    /**
-     * Set Lift Power for hang
-     * @param liftPower pwoer for lift
-     */
-    public void setLift(
-            double liftPower
-    ){
-        leftLift.setPower(liftPower);
-        rightLift.setPower(liftPower);
-    }
-
-    /**
-     * Set intake power
-     * @param intakePower power for intake
-     */
-    public void setIntakePosition(
-            double intakePower
-    ) {
-        leftIntake.setPower(intakePower);
-        rightIntake.setPower(-intakePower);
-    }
-
-    /**
-     * Run extension arm
-     * @param power power of motor
-     */
-    public void setExtendPower(double power){ extendArmMotor.setPower(power);}
-
-    public double getArmPosition(){ return armPivotMotor.getCurrentPosition();}
-
-    /**
-     * Run extension arm based on target position
-     * @param targetPosition target position of pivot
-     * @param power power of motor
-     */
-    public void autoPivotArm(
-            int targetPosition, double power
-    ) {
-        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armPivotMotor.setTargetPosition(targetPosition);
-        armPivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        armPivotMotor.setPower(power);
-    }
-
-    /**
-     * Run Pivot Motor
-     * @param power power of motor
-     */
-    public void setPivotPower(double power){ armPivotMotor.setPower(power);}
-
-    /**
-     * Get position of extension motor
-     * @return encoder tick of extension motor
-     */
-    public double getExtendPos(){ return extendArmMotor.getCurrentPosition();}
-
-    /**
-     * Get position of pivot motor
-     * @return encoder tick of pivot motor
-     */
-    public double getPivotArmPos(){ return armPivotMotor.getCurrentPosition();}
-
-    /**
-     * Get position of left lift motor
-     * @return encoder tick of left lift motor
-     */
-    public double getLeftLiftPos() { return leftLift.getCurrentPosition();}
-
-    /**
-     * Get position of right lift motor
-     * @return encoder tick of right lift motor
-     */
-    public double getRightLiftPos() { return rightLift.getCurrentPosition();}
-
 
     /**
      * Drive using encoders for auto
@@ -457,181 +317,5 @@ public class Bot {
         rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
-
-    /**
-     * Sequence for lifting bot for low hang
-     */
-    public void liftLow(){
-        this.encoderLift(RIGHT_LIFT_MAX, LEFT_LIFT_MAX);
-        this.setArmPos(1500);
-        this.autoPush();
-        this.encoderLift(RIGHT_LIFT_MAX/2,LEFT_LIFT_MAX/2);
-        this.setArmPos(MAX_PIVOT-BUFFER);
-        this.setExtendPos(5.0);
-        this.encoderLift(RIGHT_LIFT_MIN/2, LEFT_LIFT_MIN/2);
-        opMode.sleep(2000); //give time for bot to stop swaying
-        this.encoderLift(RIGHT_LIFT_MAX- BUFFER*50, LEFT_LIFT_MAX-BUFFER*50);
-
-
-
-    }
-
-    /**
-     * Sequence for lifting bot for high hang
-     */
-    //TODO FIX
-    public void liftHigh(){
-
-    }
-
-    /**
-     * Auto function to set pivot arm to position based on tick
-     * @param tick position by encoder tick
-     */
-    public void setArmPos(int tick){
-        armPivotMotor.setTargetPosition(tick);
-        armPivotMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        armPivotMotor.setPower(0.75);
-
-        while(opMode.opModeIsActive() && armPivotMotor.isBusy()){
-            opMode.telemetry.addData("Pivot Pos: ", armPivotMotor.getCurrentPosition());
-        }
-
-        armPivotMotor.setPower(0);
-
-        armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    /**
-     * Auto function to extend arm to a set position based on inches
-     * NOTE: NOT TESTED
-     * @param inches position in inches
-     */
-    public void setExtendPos(double inches){
-        double target = inches * TICKS_PER_INCH_EXT;
-
-        extendArmMotor.setTargetPosition((int) target);
-        extendArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        extendArmMotor.setPower(1.0);
-
-        while(opMode.opModeIsActive() && extendArmMotor.isBusy()){
-            opMode.telemetry.addData("Extend Pos: ", extendArmMotor.getCurrentPosition());
-        }
-
-        extendArmMotor.setPower(0);
-
-        extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    /**
-     * Auto function to extend arm to a set position based on tick
-     * @param tick encoder tick position
-     */
-    public void setExtendPos(int tick){
-        extendArmMotor.setTargetPosition(tick);
-        extendArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        extendArmMotor.setPower(1.0);
-
-        while(opMode.opModeIsActive() && extendArmMotor.isBusy()){
-            opMode.telemetry.addData("Extend Pos: ", extendArmMotor.getCurrentPosition());
-        }
-
-        extendArmMotor.setPower(0);
-
-        extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    /**
-     *
-     * @param runTime how long the intake runs for
-     * @param direction -1 for FORWARD: 1 for BACKWARD
-     */
-    public void runIntakeForTime(double runTime, int direction) {
-        long startTime = System.currentTimeMillis();
-        leftIntake.setPower(direction); // Full power for the intake
-        rightIntake.setPower(-direction);
-
-        // Run until the time is up
-        while (opMode.opModeIsActive() && (System.currentTimeMillis() - startTime < runTime * 1000)) {
-            opMode.telemetry.addData("Running intake", 1);
-            opMode.telemetry.update();
-        }
-
-        // Stop the motor after the time has expired
-        leftIntake.setPower(0);
-        rightIntake.setPower(0);
-    }
-
-    /**
-     * Auto for lift functionality
-     * @param rPos right lift position
-     * @param lPos left lift position
-     */
-    public void encoderLift(int rPos, int lPos){
-        rightLift.setTargetPosition(rPos);
-        leftLift.setTargetPosition(lPos);
-
-        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        rightLift.setPower(1.0);
-        leftLift.setPower(1.0);
-
-        while(opMode.opModeIsActive() && rightLift.isBusy() && leftLift.isBusy()){
-            opMode.telemetry.addData("Left Lift Pos: ", leftLift.getCurrentPosition());
-            opMode.telemetry.addData("Right Lift Pos: ", rightLift.getCurrentPosition());
-            opMode.telemetry.update();
-        }
-
-        rightLift.setPower(0);
-        leftLift.setPower(0);
-
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    /**
-     * Resets encoders for pivot and extend if it slips
-     */
-    public void d2EncoderReset(){
-        armPivotMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        extendArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        armPivotMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        extendArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-    }
-
-    /**
-     * Auto pushoff for lifting sequence
-     */
-    public void autoPush(){
-        leftPushoff.setPower(-1.0);
-        rightPushoff.setPower(-1.0);
-
-        opMode.sleep(4500);
-
-        leftPushoff.setPower(0);
-        rightPushoff.setPower(0);
-    }
-
-    /**
-     * Auto Intake Function
-     * @param time how long to run intake
-     */
-    public void autoIntake(double time){
-        this.setArmPos(-230);
-        this.setExtendPos(8.0);
-        this.runIntakeForTime(time, 1);
-        this.setExtendPos(0.0);
-        this.setArmPos(0);
-    }
-
-    /**
-     * Used for bypass on extend if encoder not zeroed correctly
-     * @param power power to motor
-     */
-    public void runExtend(double power){ extendArmMotor.setPower(power); }
 
 }
