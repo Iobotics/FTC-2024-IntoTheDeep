@@ -24,6 +24,8 @@ public class Bot {
 
     private DcMotor rightLift = null;
 
+    private CRServo intake = null;
+
     // Hardware Map Declaration
     private HardwareMap hwMap = null;
 
@@ -94,6 +96,9 @@ public class Bot {
         rightExtend = hwMap.get(Servo.class, "right_extend");
 
         rightExtend.setDirection(Servo.Direction.REVERSE);
+
+        intake = hwMap.get(CRServo.class, "intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //set encoders to 0 on init
 //        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -329,6 +334,7 @@ public class Bot {
 //
 //    }
 
+    // === EXTEND FUNCTIONS ===
     public double getLServoPos(){return leftExtend.getPosition();}
 
     public double getRServoPos(){return rightExtend.getPosition();}
@@ -338,6 +344,7 @@ public class Bot {
         this.rightExtend.setPosition(tick);
     }
 
+    // === LIFT FUNCTIONS ==
     public int getRLiftPos(){return rightLift.getCurrentPosition();}
 
     public void setLift(int tick){
@@ -353,6 +360,12 @@ public class Bot {
         this.rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    // === INTAKE FUNCTIONS ===
+    public void runIntake(){ this.intake.setPower(1.0);}
+
+    public void runOuttake(){ this.intake.setPower(-1.0);}
+
+    public void stopIntake() { this.intake.setPower(0.0);}
 
 
 }
