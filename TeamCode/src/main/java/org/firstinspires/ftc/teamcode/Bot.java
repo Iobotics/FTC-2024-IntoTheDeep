@@ -22,6 +22,8 @@ public class Bot {
     private Servo leftExtend = null;
     private Servo rightExtend = null;
 
+    private DcMotor rightLift = null;
+
     // Hardware Map Declaration
     private HardwareMap hwMap = null;
 
@@ -69,253 +71,288 @@ public class Bot {
         hwMap = map;
 
         //Connecting declared motors to classes of DcMotors and respected names
-        leftMotorFront = hwMap.get(DcMotor.class, "left_front");
-        leftMotorBack = hwMap.get(DcMotor.class, "left_back");
-        rightMotorFront = hwMap.get(DcMotor.class, "right_front");
-        rightMotorBack = hwMap.get(DcMotor.class, "right_back");
+//        leftMotorFront = hwMap.get(DcMotor.class, "left_front");
+//        leftMotorBack = hwMap.get(DcMotor.class, "left_back");
+//        rightMotorFront = hwMap.get(DcMotor.class, "right_front");
+//        rightMotorBack = hwMap.get(DcMotor.class, "right_back");
+//
+//
+//        leftMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        rightLift = hwMap.get(DcMotor.class, "right_lift");
 
-        leftMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
 
 
         leftExtend = hwMap.get(Servo.class, "left_extend");
         rightExtend = hwMap.get(Servo.class, "right_extend");
 
-        //set encoders to 0 on init
-        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightExtend.setDirection(Servo.Direction.REVERSE);
 
-        //Set RunModes for Encoder Usage
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //set encoders to 0 on init
+//        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//        //Set RunModes for Encoder Usage
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
         //Set Direction of each Motors
         // switch REVERSE and FORWARD if controls are opposite
-        leftMotorFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
+//        leftMotorFront.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
+//        rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
+//        rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
-    /**
-     * Set drive train power for mechanum drive
-     * @param frontLeftPower front left motor power
-     * @param backLeftPower back left motor power
-     * @param frontRightPower front right motor power
-     * @param backRightPower back right motor power
-     */
-    public void setDriveTrain(
-           double frontLeftPower, double backLeftPower,
-           double frontRightPower, double backRightPower
-    ) {
-       leftMotorFront.setPower(frontLeftPower);
-       leftMotorBack.setPower(backLeftPower);
-       rightMotorFront.setPower(frontRightPower);
-       rightMotorBack.setPower(backRightPower);
+//    /**
+//     * Set drive train power for mechanum drive
+//     * @param frontLeftPower front left motor power
+//     * @param backLeftPower back left motor power
+//     * @param frontRightPower front right motor power
+//     * @param backRightPower back right motor power
+//     */
+//    public void setDriveTrain(
+//           double frontLeftPower, double backLeftPower,
+//           double frontRightPower, double backRightPower
+//    ) {
+//       leftMotorFront.setPower(frontLeftPower);
+//       leftMotorBack.setPower(backLeftPower);
+//       rightMotorFront.setPower(frontRightPower);
+//       rightMotorBack.setPower(backRightPower);
+//    }
+//
+//    /**
+//     * Drive using encoders for auto
+//     * @param speed speed for power
+//     * @param distance distance to travel
+//     */
+//    public void encoderDrive(double speed, double distance) {
+//        int newfrontLeftTarget;
+//        int newfrontRightTarget;
+//        int newbackLeftTarget;
+//        int newbackRightTarget;
+//
+//        //calculate distance to encoder ticks
+//        newfrontLeftTarget = leftMotorFront.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+//        newfrontRightTarget = rightMotorFront.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+//        newbackLeftTarget = leftMotorBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+//        newbackRightTarget = rightMotorBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+//
+//        // set target position to hit for distance given
+//        leftMotorFront.setTargetPosition(newfrontLeftTarget);
+//        rightMotorFront.setTargetPosition(newfrontRightTarget);
+//        leftMotorBack.setTargetPosition(newbackLeftTarget);
+//        rightMotorBack.setTargetPosition(newbackRightTarget);
+//
+//        // Turn On RUN_TO_POSITION
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        // start motion
+//        leftMotorFront.setPower(Math.abs(speed));
+//        rightMotorFront.setPower(Math.abs(speed));
+//        leftMotorBack.setPower(Math.abs(speed));
+//        rightMotorBack.setPower(Math.abs(speed));
+//
+//        // Telemetry
+//        while (opMode.opModeIsActive() &&
+//                (leftMotorFront.isBusy() && rightMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorBack.isBusy())) {
+//            opMode.telemetry.addData("frontLeftEncoder", leftMotorFront.getCurrentPosition());
+//            opMode.telemetry.addData("frontRightEncoder", rightMotorFront.getCurrentPosition());
+//            opMode.telemetry.addData("backLeftEncoder", leftMotorBack.getCurrentPosition());
+//            opMode.telemetry.addData("backRightEncoder", rightMotorBack.getCurrentPosition());
+//            opMode.telemetry.update();
+//        }
+//
+//
+//        // Stop all motion;
+//        leftMotorFront.setPower(0);
+//        rightMotorFront.setPower(0);
+//        leftMotorBack.setPower(0);
+//        rightMotorBack.setPower(0);
+//
+//        // Turn off RUN_TO_POSITION
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        // set encoders to 0 when function is completed
+//        // we do this to ensure the next set of functions are based at 0 instead of taking
+//        // the encoder value the function finishes at
+//        resetEncoder();
+//    }
+//
+//    /**
+//     * Turn using encoders for auto (pivot)
+//     * @param speed speed for power
+//     * @param degrees angle degree to turn
+//     */
+//    public void encoderTurn(double speed, double degrees) {
+//
+//        //calculate target count based on degrees to turn
+//        double turnCircumference = Math.PI * (degrees * 4 / 360) * (WHEEL_DIAMETER_INCHES * 2);
+//        int targetCounts = (int) (turnCircumference / DISTANCE_PER_ENCODER);
+//
+//        // set target position of encoders based on degree to turn
+//        leftMotorFront.setTargetPosition(-targetCounts);
+//        rightMotorFront.setTargetPosition(targetCounts);
+//        leftMotorBack.setTargetPosition(-targetCounts);
+//        rightMotorBack.setTargetPosition(targetCounts);
+//
+//        // Turn On RUN_TO_POSITION
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        // reset the timeout time and start motion.
+//        leftMotorFront.setPower(Math.abs(speed));
+//        rightMotorFront.setPower(Math.abs(speed));
+//        leftMotorBack.setPower(Math.abs(speed));
+//        rightMotorBack.setPower(Math.abs(speed));
+//
+//        while (opMode.opModeIsActive() &&
+//                (leftMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorFront.isBusy() && rightMotorBack.isBusy())) {
+//            opMode.telemetry.addData("frontLeftEncoder", leftMotorFront.getCurrentPosition());
+//            opMode.telemetry.addData("frontRightEncoder", rightMotorFront.getCurrentPosition());
+//            opMode.telemetry.addData("backLeftEncoder", leftMotorBack.getCurrentPosition());
+//            opMode.telemetry.addData("backRightEncoder", rightMotorBack.getCurrentPosition());
+//            opMode.telemetry.update();
+//        }
+//
+//        // Stop all motion;
+//        leftMotorFront.setPower(0);
+//        rightMotorFront.setPower(0);
+//        leftMotorBack.setPower(0);
+//        rightMotorBack.setPower(0);
+//
+//        // Turn off RUN_TO_POSITION
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        // set encoders to 0 when function is completed
+//        // we do this to ensure the next set of functions are based at 0 instead of taking
+//        // the encoder value the function finishes at
+//        resetEncoder();
+//    }
+//
+//    /**
+//     * Strafe using encoders for auto
+//     * NOTE: Pos distance is left strafe, Neg distance is right strafe
+//     * @param speed speed of motors
+//     * @param distance distance to travel
+//     */
+//    public void encoderStrafe(double speed, double distance) {
+//        int newfrontLeftTarget;
+//        int newfrontRightTarget;
+//        int newbackLeftTarget;
+//        int newbackRightTarget;
+//
+//        // Determine new target position, and pass to motor controller
+//        newfrontLeftTarget = leftMotorFront.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
+//        newfrontRightTarget = rightMotorFront.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+//        newbackLeftTarget = leftMotorBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+//        newbackRightTarget = rightMotorBack.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
+//
+//        //Set target position for motors
+//        leftMotorFront.setTargetPosition(newfrontLeftTarget);
+//        rightMotorFront.setTargetPosition(newfrontRightTarget);
+//        leftMotorBack.setTargetPosition(newbackLeftTarget);
+//        rightMotorBack.setTargetPosition(newbackRightTarget);
+//
+//        // Turn On RUN_TO_POSITION
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        // reset the timeout time and start motion.
+//        leftMotorFront.setPower(Math.abs(speed));
+//        rightMotorFront.setPower(-Math.abs(speed));
+//        leftMotorBack.setPower(-Math.abs(speed));
+//        rightMotorBack.setPower(Math.abs(speed));
+//
+//        //Telemetry
+//        while (opMode.opModeIsActive() &&
+//                (leftMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorFront.isBusy() && rightMotorBack.isBusy())) {
+//            opMode.telemetry.addData("frontLeftEncoder", leftMotorFront.getCurrentPosition());
+//            opMode.telemetry.addData("frontRightEncoder", rightMotorFront.getCurrentPosition());
+//            opMode.telemetry.addData("backLeftEncoder", leftMotorBack.getCurrentPosition());
+//            opMode.telemetry.addData("backRightEncoder", rightMotorBack.getCurrentPosition());
+//            opMode.telemetry.update();
+//            }
+//
+//        // Stop all motion;
+//        leftMotorFront.setPower(0);
+//        rightMotorFront.setPower(0);
+//        leftMotorBack.setPower(0);
+//        rightMotorBack.setPower(0);
+//
+//        // Turn off RUN_TO_POSITION
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//        // set encoders to 0 when function is completed
+//        // we do this to ensure the next set of functions are based at 0 instead of taking
+//        // the encoder value the function finishes at
+//        resetEncoder();
+//    }
+//
+//    /**
+//     * Sets encoder values of drive motors to 0
+//     */
+//    private void resetEncoder(){
+//        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+//    }
+
+    public double getLServoPos(){return leftExtend.getPosition();}
+
+    public double getRServoPos(){return rightExtend.getPosition();}
+
+    public void setServoPos(double tick){
+        this.leftExtend.setPosition(tick);
+        this.rightExtend.setPosition(tick);
     }
 
-    /**
-     * Drive using encoders for auto
-     * @param speed speed for power
-     * @param distance distance to travel
-     */
-    public void encoderDrive(double speed, double distance) {
-        int newfrontLeftTarget;
-        int newfrontRightTarget;
-        int newbackLeftTarget;
-        int newbackRightTarget;
+    public int getRLiftPos(){return rightLift.getCurrentPosition();}
 
-        //calculate distance to encoder ticks
-        newfrontLeftTarget = leftMotorFront.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
-        newfrontRightTarget = rightMotorFront.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
-        newbackLeftTarget = leftMotorBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
-        newbackRightTarget = rightMotorBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
+    public void setLift(int tick){
+        this.rightLift.setTargetPosition(tick);
+        this.rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        this.rightLift.setPower(1.0);
 
-        // set target position to hit for distance given
-        leftMotorFront.setTargetPosition(newfrontLeftTarget);
-        rightMotorFront.setTargetPosition(newfrontRightTarget);
-        leftMotorBack.setTargetPosition(newbackLeftTarget);
-        rightMotorBack.setTargetPosition(newbackRightTarget);
-
-        // Turn On RUN_TO_POSITION
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // start motion
-        leftMotorFront.setPower(Math.abs(speed));
-        rightMotorFront.setPower(Math.abs(speed));
-        leftMotorBack.setPower(Math.abs(speed));
-        rightMotorBack.setPower(Math.abs(speed));
-
-        // Telemetry
-        while (opMode.opModeIsActive() &&
-                (leftMotorFront.isBusy() && rightMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorBack.isBusy())) {
-            opMode.telemetry.addData("frontLeftEncoder", leftMotorFront.getCurrentPosition());
-            opMode.telemetry.addData("frontRightEncoder", rightMotorFront.getCurrentPosition());
-            opMode.telemetry.addData("backLeftEncoder", leftMotorBack.getCurrentPosition());
-            opMode.telemetry.addData("backRightEncoder", rightMotorBack.getCurrentPosition());
+        while(opMode.opModeIsActive() && this.rightLift.isBusy()){
+            opMode.telemetry.addData("right lift pos: ", this.rightLift.getCurrentPosition());
             opMode.telemetry.update();
         }
-
-
-        // Stop all motion;
-        leftMotorFront.setPower(0);
-        rightMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorBack.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // set encoders to 0 when function is completed
-        // we do this to ensure the next set of functions are based at 0 instead of taking
-        // the encoder value the function finishes at
-        resetEncoder();
+        this.rightLift.setPower(0);
+        this.rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    /**
-     * Turn using encoders for auto (pivot)
-     * @param speed speed for power
-     * @param degrees angle degree to turn
-     */
-    public void encoderTurn(double speed, double degrees) {
 
-        //calculate target count based on degrees to turn
-        double turnCircumference = Math.PI * (degrees * 4 / 360) * (WHEEL_DIAMETER_INCHES * 2);
-        int targetCounts = (int) (turnCircumference / DISTANCE_PER_ENCODER);
-
-        // set target position of encoders based on degree to turn
-        leftMotorFront.setTargetPosition(-targetCounts);
-        rightMotorFront.setTargetPosition(targetCounts);
-        leftMotorBack.setTargetPosition(-targetCounts);
-        rightMotorBack.setTargetPosition(targetCounts);
-
-        // Turn On RUN_TO_POSITION
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        leftMotorFront.setPower(Math.abs(speed));
-        rightMotorFront.setPower(Math.abs(speed));
-        leftMotorBack.setPower(Math.abs(speed));
-        rightMotorBack.setPower(Math.abs(speed));
-
-        while (opMode.opModeIsActive() &&
-                (leftMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorFront.isBusy() && rightMotorBack.isBusy())) {
-            opMode.telemetry.addData("frontLeftEncoder", leftMotorFront.getCurrentPosition());
-            opMode.telemetry.addData("frontRightEncoder", rightMotorFront.getCurrentPosition());
-            opMode.telemetry.addData("backLeftEncoder", leftMotorBack.getCurrentPosition());
-            opMode.telemetry.addData("backRightEncoder", rightMotorBack.getCurrentPosition());
-            opMode.telemetry.update();
-        }
-
-        // Stop all motion;
-        leftMotorFront.setPower(0);
-        rightMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorBack.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // set encoders to 0 when function is completed
-        // we do this to ensure the next set of functions are based at 0 instead of taking
-        // the encoder value the function finishes at
-        resetEncoder();
-    }
-
-    /**
-     * Strafe using encoders for auto
-     * NOTE: Pos distance is left strafe, Neg distance is right strafe
-     * @param speed speed of motors
-     * @param distance distance to travel
-     */
-    public void encoderStrafe(double speed, double distance) {
-        int newfrontLeftTarget;
-        int newfrontRightTarget;
-        int newbackLeftTarget;
-        int newbackRightTarget;
-
-        // Determine new target position, and pass to motor controller
-        newfrontLeftTarget = leftMotorFront.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
-        newfrontRightTarget = rightMotorFront.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
-        newbackLeftTarget = leftMotorBack.getCurrentPosition() + (int) (-distance * COUNTS_PER_INCH);
-        newbackRightTarget = rightMotorBack.getCurrentPosition() + (int) (distance * COUNTS_PER_INCH);
-
-        //Set target position for motors
-        leftMotorFront.setTargetPosition(newfrontLeftTarget);
-        rightMotorFront.setTargetPosition(newfrontRightTarget);
-        leftMotorBack.setTargetPosition(newbackLeftTarget);
-        rightMotorBack.setTargetPosition(newbackRightTarget);
-
-        // Turn On RUN_TO_POSITION
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        leftMotorFront.setPower(Math.abs(speed));
-        rightMotorFront.setPower(-Math.abs(speed));
-        leftMotorBack.setPower(-Math.abs(speed));
-        rightMotorBack.setPower(Math.abs(speed));
-
-        //Telemetry
-        while (opMode.opModeIsActive() &&
-                (leftMotorFront.isBusy() && leftMotorBack.isBusy() && rightMotorFront.isBusy() && rightMotorBack.isBusy())) {
-            opMode.telemetry.addData("frontLeftEncoder", leftMotorFront.getCurrentPosition());
-            opMode.telemetry.addData("frontRightEncoder", rightMotorFront.getCurrentPosition());
-            opMode.telemetry.addData("backLeftEncoder", leftMotorBack.getCurrentPosition());
-            opMode.telemetry.addData("backRightEncoder", rightMotorBack.getCurrentPosition());
-            opMode.telemetry.update();
-            }
-
-        // Stop all motion;
-        leftMotorFront.setPower(0);
-        rightMotorFront.setPower(0);
-        leftMotorBack.setPower(0);
-        rightMotorBack.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        // set encoders to 0 when function is completed
-        // we do this to ensure the next set of functions are based at 0 instead of taking
-        // the encoder value the function finishes at
-        resetEncoder();
-    }
-
-    /**
-     * Sets encoder values of drive motors to 0
-     */
-    private void resetEncoder(){
-        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-    }
 
 }
