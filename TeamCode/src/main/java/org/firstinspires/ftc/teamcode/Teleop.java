@@ -51,6 +51,10 @@ public class Teleop extends LinearOpMode {
             double armExtendControl = gamepad1.right_trigger;
             double armRetractControl = gamepad1.left_trigger;
 
+            boolean liftUpControl = gamepad1.b;
+            boolean liftDownControl = gamepad1.a;
+
+
             // =====================
 
             // ===== Gamepad 2 =====
@@ -77,20 +81,20 @@ public class Teleop extends LinearOpMode {
            // bot.setDriveTrain(frontLeftPower, backLeftPower, frontRightPower, backRightPower);
 
             // === Arm Control ===
-
-            if(gamepad1.a){
-                bot.setLift(-1100);
-            }
-            else if (gamepad1.b){
-                bot.setLift(0);
-            }
-
             if (armExtendControl > 0.1){
                 bot.setServoPos(servoFSpeed);
             } else if(armRetractControl > 0.1) {
                 bot.setServoPos(servoBSpeed);
             } else {
                 bot.setServoPos(servoStop);
+            }
+
+            // === Lift Control ===
+            if(liftUpControl){
+                bot.setLift(-1100);
+            }
+            else if (liftDownControl){
+                bot.setLift(0);
             }
 
             // === TELEMETRY ===
