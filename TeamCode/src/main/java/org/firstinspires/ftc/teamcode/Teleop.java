@@ -81,7 +81,7 @@ public class Teleop extends LinearOpMode {
                 backLeftPower /= max;
                 backRightPower /= max;
             }
-           // bot.setDriveTrain(frontLeftPower, backLeftPower, frontRightPower, backRightPower);
+           bot.setDriveTrain(frontLeftPower, backLeftPower, frontRightPower, backRightPower);
 
             // === Arm Control ===
             if (armExtendControl > 0.1){
@@ -93,13 +93,13 @@ public class Teleop extends LinearOpMode {
             }
 
             // === Intake Control ===
-            if(intakeControl > 0.1){
-                bot.runIntake();
-            } else if(outtakeControl){
-                bot.runOuttake();
-            }  else {
-                bot.stopIntake();
-            }
+//            if(intakeControl > 0.1){
+//                bot.runIntake();
+//            } else if(outtakeControl){
+//                bot.runOuttake();
+//            }  else {
+//                bot.stopIntake();
+//            }
 
             // === Lift Control ===
             if(liftUpControl){

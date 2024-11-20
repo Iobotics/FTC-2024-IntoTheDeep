@@ -124,8 +124,8 @@ public class Bot {
         leftExtend.setDirection(Servo.Direction.FORWARD);
         rightExtend.setDirection(Servo.Direction.REVERSE);
 
-        intake = hwMap.get(CRServo.class, "intake");
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+//        intake = hwMap.get(CRServo.class, "intake");
+//        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
@@ -381,11 +381,11 @@ public class Bot {
     }
 
     // === INTAKE FUNCTIONS ===
-    public void runIntake(){ intake.setPower(1.0);}
-
-    public void runOuttake(){ intake.setPower(-1.0);}
-
-    public void stopIntake() { intake.setPower(0.0);}
+//    public void runIntake(){ intake.setPower(1.0);}
+//
+//    public void runOuttake(){ intake.setPower(-1.0);}
+//
+//    public void stopIntake() { intake.setPower(0.0);}
 
 
 }
