@@ -121,6 +121,7 @@ public class Bot {
         leftExtend = hwMap.get(Servo.class, "left_extend");
         rightExtend = hwMap.get(Servo.class, "right_extend");
 
+        leftExtend.setDirection(Servo.Direction.FORWARD);
         rightExtend.setDirection(Servo.Direction.REVERSE);
 
         intake = hwMap.get(CRServo.class, "intake");
