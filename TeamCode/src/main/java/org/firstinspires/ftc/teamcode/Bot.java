@@ -23,6 +23,7 @@ public class Bot {
     private Servo rightExtend = null;
 
     private DcMotor rightLift = null;
+    private DcMotor leftLift = null;
 
     private CRServo intake = null;
 
@@ -71,7 +72,7 @@ public class Bot {
     public void init(HardwareMap map){
 
         hwMap = map;
-
+        
         //Connecting declared motors to classes of DcMotors and respected names
 //        leftMotorFront = hwMap.get(DcMotor.class, "left_front");
 //        leftMotorBack = hwMap.get(DcMotor.class, "left_back");
@@ -83,22 +84,6 @@ public class Bot {
 //        rightMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 //        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        rightLift = hwMap.get(DcMotor.class, "right_lift");
-
-        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
-
-
-        leftExtend = hwMap.get(Servo.class, "left_extend");
-        rightExtend = hwMap.get(Servo.class, "right_extend");
-
-        rightExtend.setDirection(Servo.Direction.REVERSE);
-
-        intake = hwMap.get(CRServo.class, "intake");
-        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         //set encoders to 0 on init
 //        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -119,6 +104,27 @@ public class Bot {
 //        leftMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
 //        rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
 //        rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        rightLift = hwMap.get(DcMotor.class, "right_lift");
+        leftLift = hwMap.get(DcMotor.class, "left_lift");
+
+        rightLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftLift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftLift.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        leftExtend = hwMap.get(Servo.class, "left_extend");
+        rightExtend = hwMap.get(Servo.class, "right_extend");
+
+        rightExtend.setDirection(Servo.Direction.REVERSE);
+
+        intake = hwMap.get(CRServo.class, "intake");
+        intake.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
@@ -340,32 +346,45 @@ public class Bot {
     public double getRServoPos(){return rightExtend.getPosition();}
 
     public void setServoPos(double tick){
-        this.leftExtend.setPosition(tick);
-        this.rightExtend.setPosition(tick);
+        leftExtend.setPosition(tick);
+        rightExtend.setPosition(tick);
     }
 
     // === LIFT FUNCTIONS ==
     public int getRLiftPos(){return rightLift.getCurrentPosition();}
 
+    public int getLLiftPos(){return leftLift.getCurrentPosition();}
+
     public void setLift(int tick){
-        this.rightLift.setTargetPosition(tick);
-        this.rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        this.rightLift.setPower(1.0);
+        rightLift.setTargetPosition(tick);
+        leftLift.setTargetPosition(tick);
+        rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        leftLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightLift.setPower(1.0);
+        leftLift.setPower(1.0);
 
         while(opMode.opModeIsActive() && this.rightLift.isBusy()){
             opMode.telemetry.addData("right lift pos: ", this.rightLift.getCurrentPosition());
+            opMode.telemetry.addData("left lift pos: ", this.leftLift.getCurrentPosition());
             opMode.telemetry.update();
         }
-        this.rightLift.setPower(0);
-        this.rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightLift.setPower(0);
+        leftLift.setPower(0);
+        rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void powerLift(double power){
+        leftLift.setPower(power);
+        rightLift.setPower(power);
     }
 
     // === INTAKE FUNCTIONS ===
-    public void runIntake(){ this.intake.setPower(1.0);}
+    public void runIntake(){ intake.setPower(1.0);}
 
-    public void runOuttake(){ this.intake.setPower(-1.0);}
+    public void runOuttake(){ intake.setPower(-1.0);}
 
-    public void stopIntake() { this.intake.setPower(0.0);}
+    public void stopIntake() { intake.setPower(0.0);}
 
 
 }
