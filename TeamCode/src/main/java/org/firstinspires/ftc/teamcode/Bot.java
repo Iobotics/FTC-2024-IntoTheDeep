@@ -31,15 +31,8 @@ public class Bot {
     private HardwareMap hwMap = null;
 
     //Statistics for measurements
-    public static final int MAX_EXT = -2648;
-    public static final double MIN_EXTEND = 0;
+    private static final int LIFT_MAX = -1100;
 
-    public static final int LEFT_LIFT_MAX = 7255;
-    public static final int LEFT_LIFT_MIN = -101;
-    public static final int RIGHT_LIFT_MAX = 7302;
-    public static final int RIGHT_LIFT_MIN = -10;
-    public static final int MAX_PIVOT = 2560;
-    public static final int MIN_PIVOT = -180;
 
 
     //Drive Encoder Stats
@@ -49,12 +42,6 @@ public class Bot {
     private static final double CIRCUMFERENCE = (WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / CIRCUMFERENCE;
     private static final double DISTANCE_PER_ENCODER =  CIRCUMFERENCE/COUNTS_PER_MOTOR_REV;
-
-
-    private static final double MAX_DISTANCE = 25.5;
-    private static final double TICKS_PER_INCH_EXT = MAX_EXT / MAX_DISTANCE;
-
-    private static final int BUFFER = 10;
     
     /**
      * Constructor for Bot object
@@ -357,6 +344,9 @@ public class Bot {
     public int getLLiftPos(){return leftLift.getCurrentPosition();}
 
     public void setLift(int tick){
+        if(tick > LIFT_MAX){
+            return;
+        }
         rightLift.setTargetPosition(tick);
         leftLift.setTargetPosition(tick);
         rightLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -379,6 +369,12 @@ public class Bot {
         leftLift.setPower(power);
         rightLift.setPower(power);
     }
+
+    public int getLiftPos(){
+        return leftLift.getCurrentPosition() + rightLift.getCurrentPosition() /2;
+    }
+
+    public int getLiftMax(){return LIFT_MAX;}
 
     // === INTAKE FUNCTIONS ===
 //    public void runIntake(){ intake.setPower(1.0);}
