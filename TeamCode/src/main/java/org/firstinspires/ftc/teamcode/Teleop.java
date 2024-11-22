@@ -103,10 +103,12 @@ public class Teleop extends LinearOpMode {
 
             // === Lift Control ===
             if(liftUpControl){
-                bot.setLift(-1100);
+                bot.powerLift(-1.0);
             }
             else if (liftDownControl){
-                bot.setLift(0);
+                bot.powerLift(1.0);
+            } else {
+                bot.powerLift(0);
             }
 
             // === TELEMETRY ===
