@@ -27,6 +27,11 @@ public class Bot {
 
     private CRServo intake = null;
 
+    private Servo liftPivot = null;
+
+    private Servo rightIntakePivot = null;
+    private Servo leftIntakePivot = null;
+
     // Hardware Map Declaration
     private HardwareMap hwMap = null;
 
@@ -110,6 +115,9 @@ public class Bot {
 
         leftExtend.setDirection(Servo.Direction.FORWARD);
         rightExtend.setDirection(Servo.Direction.REVERSE);
+
+        liftPivot = hwMap.get(Servo.class, "lift_pivot");
+        liftPivot.setDirection(Servo.Direction.FORWARD);
 
 //        intake = hwMap.get(CRServo.class, "intake");
 //        intake.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -375,6 +383,12 @@ public class Bot {
     }
 
     public int getLiftMax(){return LIFT_MAX;}
+
+    // === LIFT PIVOT FUNCTIONS ===
+    
+
+
+    // === INTAKE PIVOT FUNCTIONS ===
 
     // === INTAKE FUNCTIONS ===
 //    public void runIntake(){ intake.setPower(1.0);}
