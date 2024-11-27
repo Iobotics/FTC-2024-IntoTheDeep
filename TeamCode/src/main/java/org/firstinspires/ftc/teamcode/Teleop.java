@@ -52,6 +52,8 @@ public class Teleop extends LinearOpMode {
 
         waitForStart();
 
+
+
         if (isStopRequested()) return;
 
         while (opModeIsActive()) {
@@ -130,6 +132,8 @@ public class Teleop extends LinearOpMode {
                     subIntakeShortControl = gamepad2.dpad_right;
                 }
             }
+
+
 
             // === DRIVE ===
             //mechanum drive equations for powering each motor
