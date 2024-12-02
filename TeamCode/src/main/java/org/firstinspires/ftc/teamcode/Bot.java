@@ -641,7 +641,9 @@ public class Bot {
 
 }
 
-//=========NEW BOT BOT.JAVA CODE=========
+/** =========NEW BOT BOT.JAVA CODE=========
+*P.S. I think we already have a Bot and Teleop for Myka III. Isn't that the one Jerry worked on?
+ */
 //package org.firstinspires.ftc.teamcode;
 //
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
