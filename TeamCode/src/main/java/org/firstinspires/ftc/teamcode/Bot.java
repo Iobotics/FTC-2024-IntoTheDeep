@@ -640,3 +640,68 @@ public class Bot {
     public void runExtend(double power){ extendArmMotor.setPower(power); }
 
 }
+
+//=========NEW BOT BOT.JAVA CODE=========
+//package org.firstinspires.ftc.teamcode;
+//
+//import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+//import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.DcMotor;
+//import com.qualcomm.robotcore.hardware.DcMotorSimple;
+//import com.qualcomm.robotcore.hardware.HardwareMap;
+//
+//public class Bot {
+//
+//    //OpMode Declaration
+//    private LinearOpMode opMode;
+//
+//    //Motor Declaration
+//    private DcMotor leftMotorFront;
+//    private DcMotor rightMotorFront;
+//    private DcMotor leftMotorBack;
+//    private DcMotor rightMotorBack;
+//}
+//public Bot(LinearOpMode opMode) {
+//    this.opMode = opMode;
+//    init(opMode.hardwareMap);
+//}
+//public void init(HardwareMap map){
+//
+//    hwMap = map;
+//
+//    //Connecting declared motors to classes of DcMotors and respected names
+//    leftMotorFront = hwMap.get(DcMotor.class, "left_front");
+//    leftMotorBack = hwMap.get(DcMotor.class, "left_back");
+//    rightMotorFront = hwMap.get(DcMotor.class, "right_front");
+//    rightMotorBack = hwMap.get(DcMotor.class, "right_back");
+//
+//
+//    leftMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//    rightMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//    leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//    rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//
+////set encoders to 0 on init
+//        leftMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//
+////Set RunModes for Encoder Usage
+//        leftMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        leftMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        rightMotorBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//
+//// Set zero power behavior for motors
+//        leftMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightMotorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        leftMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        rightMotorBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+////Set Direction of each Motors
+//// switch REVERSE and FORWARD if controls are opposite
+//        leftMotorFront.setDirection(DcMotorSimple.Direction.REVERSE);
+//        leftMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
+//        rightMotorFront.setDirection(DcMotorSimple.Direction.FORWARD);
+//        rightMotorBack.setDirection(DcMotorSimple.Direction.FORWARD);
+//}
