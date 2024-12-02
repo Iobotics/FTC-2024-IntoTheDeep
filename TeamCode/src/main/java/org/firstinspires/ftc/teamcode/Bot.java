@@ -32,7 +32,6 @@ public class Bot {
     private CRServo rightPushoff;
     private CRServo leftPushoff;
 
-
     //Statistics for measurements
     public static final int MAX_EXT = -2648;
     public static final double MIN_EXTEND = 0;
