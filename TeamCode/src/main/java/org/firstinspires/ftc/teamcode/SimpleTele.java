@@ -43,7 +43,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  */
 
 @TeleOp(name = "TeleOp", group = "TeleOp")
-public class Teleop extends LinearOpMode {
+public class SimpleTele extends LinearOpMode {
 
 
     @Override
@@ -51,8 +51,6 @@ public class Teleop extends LinearOpMode {
         Bot bot = new Bot(this);
 
         waitForStart();
-
-
 
         if (isStopRequested()) return;
 
@@ -106,34 +104,32 @@ public class Teleop extends LinearOpMode {
                 bot.setIntakePosition(0.0);
             }
             // ground intake control
-            if(groundIntakeControl){
-                while(groundIntakeControl){
-                    bot.setIntakePosition(1);
-                    bot.setArmPos(-380);
-                    bot.setExtendPos(8.50);
-                    groundIntakeControl = gamepad2.b;
-                    }
-            }
-
-            if(subIntakeLongControl){
-                while(subIntakeLongControl){
-                    bot.setIntakePosition(1);
-                    bot.setExtendPos(18.0);
-                    bot.setArmPos(-170);
-                    subIntakeLongControl = gamepad2.dpad_left;
-                }
-            }
-
-            if(subIntakeShortControl){
-                while(subIntakeShortControl){
-                    bot.setIntakePosition(1);
-                    bot.setArmPos(-250);
-                    bot.setExtendPos(11.5);
-                    subIntakeShortControl = gamepad2.dpad_right;
-                }
-            }
-
-
+//            if(groundIntakeControl){
+//                while(groundIntakeControl){
+//                    bot.setIntakePosition(1);
+//                    bot.setArmPos(-380);
+//                    bot.setExtendPos(8.50);
+//                    groundIntakeControl = gamepad2.b;
+//                    }
+//            }
+//
+//            if(subIntakeLongControl){
+//                while(subIntakeLongControl){
+//                    bot.setIntakePosition(1);
+//                    bot.setExtendPos(18.0);
+//                    bot.setArmPos(-170);
+//                    subIntakeLongControl = gamepad2.dpad_left;
+//                }
+//            }
+//
+//            if(subIntakeShortControl){
+//                while(subIntakeShortControl){
+//                    bot.setIntakePosition(1);
+//                    bot.setArmPos(-250);
+//                    bot.setExtendPos(11.5);
+//                    subIntakeShortControl = gamepad2.dpad_right;
+//                }
+//            }
 
             // === DRIVE ===
             //mechanum drive equations for powering each motor

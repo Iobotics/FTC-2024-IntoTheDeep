@@ -14,7 +14,7 @@ public class RightAuto extends LinearOpMode {
 
         waitForStart();
 
-        //drives forward and gets a compliment from Mrs. Nagao
+        //drives forward and hangs the specimen
         robot.encoderDrive(1,19.43);
         robot.setArmPos(1045);
         robot.setExtendPos(13.948);
@@ -54,6 +54,7 @@ public class RightAuto extends LinearOpMode {
         robot.setArmPos(1070);
         robot.setExtendPos(12.501);
         robot.encoderDrive(1,9.6);
+        robot.encoderDrive(1,9.8898);
         robot.setArmPos(0);
         robot.setArmPos(250);
         robot.setExtendPos(0.25);
