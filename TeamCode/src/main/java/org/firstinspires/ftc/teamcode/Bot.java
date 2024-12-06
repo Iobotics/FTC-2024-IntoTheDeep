@@ -469,7 +469,7 @@ public class Bot {
         this.setExtendPos(5.0);
         this.encoderLift(RIGHT_LIFT_MIN/2, LEFT_LIFT_MIN/2);
         opMode.sleep(2000);
-        //give time for bot to stop swayint
+        //give time for bot to stop swaying
         this.encoderLift(RIGHT_LIFT_MAX- BUFFER*50, LEFT_LIFT_MAX-BUFFER*50);
 
 
