@@ -57,6 +57,9 @@ public class Teleop extends LinearOpMode {
             boolean liftUpControl = gamepad1.b;
             boolean liftDownControl = gamepad1.a;
 
+            double dumpControl = gamepad2.left_trigger;
+            boolean pmudControl = gamepad2.left_bumper;
+
 
             // =====================
 
@@ -100,6 +103,14 @@ public class Teleop extends LinearOpMode {
 //            }  else {
 //                bot.stopIntake();
 //            }
+
+            if(dumpControl > 0.1) {
+                bot.runDump();
+            } else if(pmudControl){
+                bot.runPmud();
+            } else {
+                bot.stopDump();
+            }
 
             // === Lift Control ===
             if(liftUpControl && bot.getLiftPos() > bot.getLiftMax()){

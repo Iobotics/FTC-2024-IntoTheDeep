@@ -27,7 +27,9 @@ public class Bot {
 
     private CRServo intake = null;
 
-    private Servo liftPivot = null;
+    private CRServo dump =null;
+
+//    private Servo liftPivot = null;
 
     private Servo rightIntakePivot = null;
     private Servo leftIntakePivot = null;
@@ -116,11 +118,14 @@ public class Bot {
         leftExtend.setDirection(Servo.Direction.FORWARD);
         rightExtend.setDirection(Servo.Direction.REVERSE);
 
-        liftPivot = hwMap.get(Servo.class, "lift_pivot");
-        liftPivot.setDirection(Servo.Direction.FORWARD);
+//        liftPivot = hwMap.get(Servo.class, "liftPivot");
+//        liftPivot.setDirection(Servo.Direction.FORWARD);
 
 //        intake = hwMap.get(CRServo.class, "intake");
 //        intake.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        dump = hwMap.get(CRServo.class, "dump");
+        dump.setDirection(DcMotorSimple.Direction.FORWARD);
 
     }
 
@@ -367,8 +372,8 @@ public class Bot {
             opMode.telemetry.addData("left lift pos: ", this.leftLift.getCurrentPosition());
             opMode.telemetry.update();
         }
-        rightLift.setPower(0);
-        leftLift.setPower(0);
+        rightLift.setPower(0.0);
+        leftLift.setPower(0.0);
         rightLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         leftLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
@@ -385,7 +390,12 @@ public class Bot {
     public int getLiftMax(){return LIFT_MAX;}
 
     // === LIFT PIVOT FUNCTIONS ===
-    
+
+
+    // === DUMP PIVOT FUNCTIONS ===
+    public void runDump(){ dump.setPower(1.0);}
+    public void runPmud(){dump.setPower(-1.0);}
+    public void stopDump(){dump.setPower(0.0);}
 
 
     // === INTAKE PIVOT FUNCTIONS ===
