@@ -41,7 +41,7 @@ public class Bot {
     private HardwareMap hwMap = null;
 
     //Statistics for measurements
-    private static final int LIFT_MAX = -1100;
+    private static final int LIFT_MAX = -4579;
 
 
 

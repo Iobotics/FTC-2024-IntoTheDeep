@@ -48,22 +48,22 @@ public class Teleop extends LinearOpMode {
             double x = -gamepad1.left_stick_x; // Counteract imperfect strafing
             double pivot = -gamepad1.right_stick_x;
 
-            double armExtendControl = gamepad1.right_trigger;
+            boolean armExtendControl = gamepad1.left_bumper;
             boolean armRetractControl = gamepad1.right_bumper;
 
             double intakeControl = gamepad1.left_trigger;
-            boolean outtakeControl = gamepad1.left_bumper;
+            double outtakeControl = gamepad1.right_trigger;
 
             boolean liftUpControl = gamepad1.b;
             boolean liftDownControl = gamepad1.a;
 
-            double dumpControl = gamepad2.left_trigger;
-            double pmudControl = gamepad2.right_trigger;
-
-
             // =====================
 
             // ===== Gamepad 2 =====
+
+            boolean dumpControl = gamepad2.left_bumper;
+            boolean pmudControl = gamepad2.right_bumper;
+
 
             // =====================
 
@@ -87,7 +87,7 @@ public class Teleop extends LinearOpMode {
            bot.setDriveTrain(frontLeftPower, backLeftPower, frontRightPower, backRightPower);
 
             // === Arm Control ===
-            if (armExtendControl > 0.1){
+            if (armExtendControl){
                 bot.setServoPos(servoFSpeed);
             } else if(armRetractControl) {
                 bot.setServoPos(servoBSpeed);
@@ -104,13 +104,26 @@ public class Teleop extends LinearOpMode {
 //                bot.stopIntake();
 //            }
 
-            if(dumpControl > 0.1) {
+            if(dumpControl) {
                 bot.runDump();
-            } else if(pmudControl > 0.1){
+            } else if(pmudControl){
                 bot.runPmud();
             } else {
                 bot.stopDump();
             }
+
+
+            // === INTAKE ===
+            if (intakeControl > 0.01) {
+                bot.setIntakePosition(-1.0);
+            } else if (outtakeControl>0.01) {
+                bot.setIntakePosition(1.0);
+            }
+            //when no button is pressed, nothing rotates
+            else {
+                bot.setIntakePosition(0.0);
+            }
+
 
             // === Lift Control ===
             if(liftUpControl && bot.getLiftPos() > bot.getLiftMax()){
