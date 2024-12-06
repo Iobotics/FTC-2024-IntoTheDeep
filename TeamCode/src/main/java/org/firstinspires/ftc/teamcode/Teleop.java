@@ -58,7 +58,7 @@ public class Teleop extends LinearOpMode {
             boolean liftDownControl = gamepad1.a;
 
             double dumpControl = gamepad2.left_trigger;
-            boolean pmudControl = gamepad2.left_bumper;
+            double pmudControl = gamepad2.right_trigger;
 
 
             // =====================
