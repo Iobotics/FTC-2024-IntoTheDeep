@@ -106,7 +106,7 @@ public class Teleop extends LinearOpMode {
 
             if(dumpControl > 0.1) {
                 bot.runDump();
-            } else if(pmudControl){
+            } else if(pmudControl > 0.1){
                 bot.runPmud();
             } else {
                 bot.stopDump();

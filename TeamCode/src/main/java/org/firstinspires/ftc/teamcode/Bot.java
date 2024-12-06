@@ -27,7 +27,10 @@ public class Bot {
 
     private CRServo intake = null;
 
-    private CRServo dump =null;
+    private CRServo leftIntake;
+    private CRServo rightIntake;
+
+    private CRServo dump = null;
 
 //    private Servo liftPivot = null;
 
@@ -126,6 +129,10 @@ public class Bot {
 
         dump = hwMap.get(CRServo.class, "dump");
         dump.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        //Servos for intake on the map
+        leftIntake = map.get(CRServo.class, "left_intake");
+        rightIntake = map.get(CRServo.class, "right_intake");
 
     }
 
@@ -396,6 +403,38 @@ public class Bot {
     public void runDump(){ dump.setPower(1.0);}
     public void runPmud(){dump.setPower(-1.0);}
     public void stopDump(){dump.setPower(0.0);}
+
+    /**
+     * Set intake power
+     * @param intakePower power for intake
+     */
+    public void setIntakePosition(
+            double intakePower
+    ) {
+        leftIntake.setPower(intakePower);
+        rightIntake.setPower(-intakePower);
+    }
+
+    /**
+     *
+     * @param runTime how long the intake runs for
+     * @param direction -1 for FORWARD: 1 for BACKWARD
+     */
+    public void runIntakeForTime(double runTime, int direction) {
+        long startTime = System.currentTimeMillis();
+        leftIntake.setPower(direction); // Full power for the intake
+        rightIntake.setPower(-direction);
+        // Run until the time is up
+        while (opMode.opModeIsActive() && (System.currentTimeMillis() - startTime < runTime * 1000)) {
+            opMode.telemetry.addData("Running intake", 1);
+            opMode.telemetry.update();
+        }
+
+
+        // Stop the motor after the time has expired
+        leftIntake.setPower(0);
+        rightIntake.setPower(0);
+    }
 
 
     // === INTAKE PIVOT FUNCTIONS ===
