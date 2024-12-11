@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  *      the high bar relies on the bot being already hanging from the low bar.
  */
 
-@TeleOp(name = "TeleOp", group = "TeleOp")
+@TeleOp(name = "TeleOpSimple", group = "TeleOp")
 public class SimpleTele extends LinearOpMode {
 
 

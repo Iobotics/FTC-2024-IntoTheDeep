@@ -36,9 +36,11 @@ public class Bot {
     public static final int MAX_EXT = -2648;
     public static final double MIN_EXTEND = 0;
 
-    public static final int LEFT_LIFT_MAX = 7255;
+    private static final int BUFFER = 10;
+
+    public static final int LEFT_LIFT_MAX = 7024 - BUFFER*2;
     public static final int LEFT_LIFT_MIN = -101;
-    public static final int RIGHT_LIFT_MAX = 7302;
+    public static final int RIGHT_LIFT_MAX = 7124;
     public static final int RIGHT_LIFT_MIN = -10;
     public static final int MAX_PIVOT = 2560;
     public static final int MIN_PIVOT = -180;
@@ -56,7 +58,7 @@ public class Bot {
     private static final double MAX_DISTANCE = 25.5;
     private static final double TICKS_PER_INCH_EXT = MAX_EXT / MAX_DISTANCE;
 
-    private static final int BUFFER = 10;
+
 
     /**
      * Constructor for Bot object
@@ -462,17 +464,12 @@ public class Bot {
      */
     public void liftLow(){
         this.encoderLift(RIGHT_LIFT_MAX, LEFT_LIFT_MAX);
-        this.setArmPos(1500);
         this.autoPush();
         this.encoderLift(RIGHT_LIFT_MAX/2,LEFT_LIFT_MAX/2);
-        this.setArmPos(MAX_PIVOT-BUFFER);
-        this.setExtendPos(5.0);
-        this.encoderLift(RIGHT_LIFT_MIN/2, LEFT_LIFT_MIN/2);
-        opMode.sleep(2000);
-        //give time for bot to stop swaying
-        this.encoderLift(RIGHT_LIFT_MAX- BUFFER*50, LEFT_LIFT_MAX-BUFFER*50);
+        this.autoPushBack();
+    }
 
-
+    public void liftLowParallel(){
 
     }
 
@@ -609,7 +606,17 @@ public class Bot {
         leftPushoff.setPower(-1.0);
         rightPushoff.setPower(-1.0);
 
-        opMode.sleep(4500);
+        opMode.sleep(3800);
+
+        leftPushoff.setPower(0);
+        rightPushoff.setPower(0);
+    }
+
+    public void autoPushBack(){
+        leftPushoff.setPower(1.0);
+        rightPushoff.setPower(1.0);
+
+        opMode.sleep(1500);
 
         leftPushoff.setPower(0);
         rightPushoff.setPower(0);
@@ -638,7 +645,6 @@ public class Bot {
      * @param power power to motor
      */
     public void runExtend(double power){ extendArmMotor.setPower(power); }
-
 }
 
 /** =========NEW BOT BOT.JAVA CODE=========
