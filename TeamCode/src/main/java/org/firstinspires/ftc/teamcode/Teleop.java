@@ -48,20 +48,20 @@ public class Teleop extends LinearOpMode {
             double x = -gamepad1.left_stick_x; // Counteract imperfect strafing
             double pivot = -gamepad1.right_stick_x;
 
-            boolean armExtendControl = gamepad1.left_bumper;
+            double armExtendControl = gamepad1.right_trigger;
             boolean armRetractControl = gamepad1.right_bumper;
 
             double intakeControl = gamepad1.left_trigger;
-            double outtakeControl = gamepad1.right_trigger;
+            boolean outtakeControl = gamepad1.left_bumper;
 
-            boolean liftUpControl = gamepad1.b;
+            boolean liftUpControl = gamepad1.y;
             boolean liftDownControl = gamepad1.a;
 
             // =====================
 
             // ===== Gamepad 2 =====
 
-            boolean dumpControl = gamepad2.left_bumper;
+            double dumpControl = gamepad2.right_trigger;
             boolean pmudControl = gamepad2.right_bumper;
 
 
@@ -87,7 +87,7 @@ public class Teleop extends LinearOpMode {
            bot.setDriveTrain(frontLeftPower, backLeftPower, frontRightPower, backRightPower);
 
             // === Arm Control ===
-            if (armExtendControl){
+            if (armExtendControl > 0.1){
                 bot.setServoPos(servoFSpeed);
             } else if(armRetractControl) {
                 bot.setServoPos(servoBSpeed);
@@ -104,7 +104,7 @@ public class Teleop extends LinearOpMode {
 //                bot.stopIntake();
 //            }
 
-            if(dumpControl) {
+            if(dumpControl > 0.1) {
                 bot.runDump();
             } else if(pmudControl){
                 bot.runPmud();
@@ -116,7 +116,7 @@ public class Teleop extends LinearOpMode {
             // === INTAKE ===
             if (intakeControl > 0.01) {
                 bot.setIntakePosition(-1.0);
-            } else if (outtakeControl>0.01) {
+            } else if (outtakeControl) {
                 bot.setIntakePosition(1.0);
             }
             //when no button is pressed, nothing rotates

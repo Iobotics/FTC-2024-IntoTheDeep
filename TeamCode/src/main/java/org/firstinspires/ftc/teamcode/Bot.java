@@ -27,8 +27,8 @@ public class Bot {
 
     private CRServo intake = null;
 
-    private CRServo leftIntake;
-    private CRServo rightIntake;
+    private CRServo leftIntake = null;
+    private CRServo rightIntake = null;
 
     private CRServo dump = null;
 
